@@ -32,6 +32,10 @@ function display_page() {
     require_login(1, false); //Use course 1 because this has nothing to do with an actual course, just like course 1
 
     $context = context_system::instance();
+    
+    if (!has_capability('moodle/course:delete', $context)) {
+        redirect($CFG->wwwroot . '/admin/search.php', 'You do not have permission to use this tool', 5);
+    }
 
     $pagetitle = get_string('pluginname', 'local_coursecleanup');
     $pageheading = get_string('pluginname', 'local_coursecleanup');
