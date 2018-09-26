@@ -97,12 +97,13 @@ function display_page() {
                                 <div class="form-group">
                                     <label for="roleCategories"><?php echo get_string('session', 'local_coursecleanup'); ?></label>
                                     <select class="form-control" id="session"  name="session">
-                                        <option value="F">Fall</option>                                        
-                                        <option value="W">Winter</option>                                        
-                                        <option value="Y">Year</option>                                        
-                                        <option value="SU">Summer (SU)</option>                                        
-                                        <option value="S1">Summer (S1)</option>                                        
-                                        <option value="S2">Summer (S2)</option>                                        
+                                        <option value="A"><?php echo get_string('all_courses', 'local_coursecleanup'); ?></option>                                        
+                                        <option value="F"><?php echo get_string('fall', 'local_coursecleanup'); ?></option>                                        
+                                        <option value="W"><?php echo get_string('winter', 'local_coursecleanup'); ?></option>                                        
+                                        <option value="Y"><?php echo get_string('year', 'local_coursecleanup'); ?></option>                                        
+                                        <option value="SU"><?php echo get_string('su', 'local_coursecleanup'); ?></option>                                        
+                                        <option value="S1"><?php echo get_string('s1', 'local_coursecleanup'); ?></option>                                        
+                                        <option value="S2"><?php echo get_string('s2', 'local_coursecleanup'); ?></option>                                        
                                     </select> 
                                 </div>
                                 <div class="form-group">
@@ -123,6 +124,13 @@ function display_page() {
                                                 echo '<option value="' . $role->id . '">' . $role->name . '</option>'; 
                                             }
                                         ?>                                       
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label for="visible"><?php echo get_string('hide_course', 'local_coursecleanup'); ?></label>
+                                    <select class="form-control" id="visible"  name="visible">
+                                        <option value="1"><?php echo get_string('yes'); ?></option>                                     
+                                        <option value="0"><?php echo get_string('no'); ?></option>                                     
                                     </select> 
                                 </div>
                             </div>

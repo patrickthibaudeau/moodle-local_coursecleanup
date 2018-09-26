@@ -50,12 +50,13 @@ define(['jquery', 'jqueryui'], function ($, jqui) {
             var session = $('#session').val();
             var fromRole = $('#fromRole').val();
             var toRole = $('#toRole').val();
+            var visible = $('#visible').val();
 
             if (confirm('Are you sure you want to reset the role of users for courses within this category?')) {
                 $('#resultsContainer').append('<div style="font-size: 2.0em; text-align: center;"><i class="fa fa-spinner fa-spin"></i></div>');
                 $.ajax({
                     url: "ajax.php?action=resetRoles&categoryid=" + categoryId,
-                    data: '&session=' + session + '&fromrole=' + fromRole + '&torole=' + toRole,
+                    data: '&session=' + session + '&fromrole=' + fromRole + '&torole=' + toRole + '&visible=' + visible,
                     dataType: "html",
                     success: function (results) {
                         $('#resultsContainer').html(results);

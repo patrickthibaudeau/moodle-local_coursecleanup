@@ -85,7 +85,17 @@ function local_coursecleanup_get_roles() {
     return $roles;
 }
 
-function local_coursecleanup_reset_role($categoryId, $session, $fromRole, $toRole) {
+/**
+ * 
+ * @global stdClass $CFG
+ * @global moodle_database $DB
+ * @param int $categoryId
+ * @param string $session (A,F,W,Y,SU,S1,S2)
+ * @param int $fromRole
+ * @param int $toRole
+ * @param int $visible
+ */
+function local_coursecleanup_reset_role($categoryId, $session, $fromRole, $toRole, $visible) {
     global $CFG, $DB;
     require_once($CFG->dirroot . '/user/lib.php');
     //Get category path
@@ -95,17 +105,33 @@ function local_coursecleanup_reset_role($categoryId, $session, $fromRole, $toRol
     raise_memory_limit(MEMORY_UNLIMITED);
 
     foreach ($categories as $currentCategory) {
-        $sql = 'SELECT * FROM {course} WHERE category=' . $currentCategory->id . ' AND idnumber LIKE "%\_' . $session . '\_%"';
-        $courses = $DB->get_records_sql($sql);
+        if ($session == 'A') {
+            $courses = $DB->get_records('course', ['category' => $currentCategory->id]);
+        } else {
+            $sql = 'SELECT * FROM {course} WHERE category=' . $currentCategory->id . ' AND idnumber LIKE "%\_' . $session . '\_%"';
+            $courses = $DB->get_records_sql($sql);
+        }
 
         if (count($courses) == 0) {
             echo 'No courses in category: ' . $currentCategory->name . '<br><br>';
         } else {
             foreach ($courses as $course) {
+
                 $context = CONTEXT_COURSE::instance($course->id);
 
                 $teachers = user_get_participants($course->id, null, null, $fromRole, null, null, null);
                 echo "<h3>$course->fullname </h3>\n";
+                //Hide course
+                if ($visible == true) {
+                    $visibleOld = $course->visible;
+                    if ($course->visible == 1) {
+                        if ($DB->update_record('course', ['id' => $course->id, 'visible' => 0, 'visibleold' => $visibleOld])) {
+                            echo 'Course has been changed to hidden<br>' . "\n";
+                        }
+                    } else {
+                        echo 'Course is already hidden<br>' . "\n";
+                    }
+                }
                 foreach ($teachers as $teacher) {
                     role_unassign($fromRole, $teacher->id, $context->id);
                     echo 'User with ID ' . $teacher->id . ' was unassigned from role with ID ' . $fromRole . '<br>' . "\n";

@@ -13,10 +13,10 @@
  * *************************************************************************
  * *************************************************************************/
 
-$plugin->version = 2018092600;
+$plugin->version = 2018092601;
 // Moodle version required
 $plugin->requires = 2010112400;
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.0.1 (Build 2018092600)';
+$plugin->release = '1.0.2 (Build 2018092601)';
 $plugin->cron = 0;
 $plugin->component = 'local_coursecleanup';
