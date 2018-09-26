@@ -1,7 +1,7 @@
 # moodle-local_coursecleanup
 The course cleanup tool is used to perform global changes to courses.
 
-#Tools
+## Tools
 Delete all courses in a category that have not been used. That is, it only has the Course announcements activity and no grade items.
 
 Change role from role A to B in all courses within a category.
@@ -14,5 +14,5 @@ index.php
 amd/src/cleanup.js (remember to run grunt if you do)
 locallib.php function local_coursecleanup_reset_role()
 
-#Using the tool
+## Using the tool
 To access the tool, click on Site administration and then the Courses tab. Then click on the Category course cleanup link
