@@ -85,7 +85,7 @@ function local_coursecleanup_get_roles() {
     return $roles;
 }
 
-function local_coursecleanup_resetRole($categoryId, $session, $fromRole, $toRole) {
+function local_coursecleanup_reset_role($categoryId, $session, $fromRole, $toRole) {
     global $CFG, $DB;
     require_once($CFG->dirroot . '/user/lib.php');
     //Get category path

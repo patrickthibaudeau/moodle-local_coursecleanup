@@ -28,6 +28,6 @@ switch ($action) {
         $session = required_param('session', PARAM_TEXT);
         $fromRole = required_param('fromrole', PARAM_INT);
         $toRole = required_param('torole', PARAM_INT);
-        local_coursecleanup_resetRole($categoryId, $session, $fromRole, $toRole);
+        local_coursecleanup_reset_role($categoryId, $session, $fromRole, $toRole);
         break;
 }
