@@ -17,5 +17,3 @@ require_once('locallib.php');
 
 
 require_once($CFG->dirroot . '/local/coursecleanup/classes/Base.php');
-require_once($CFG->dirroot . '/local/coursecleanup/classes/iCrud.php');
-require_once($CFG->dirroot . '/local/coursecleanup/classes/Notifications.php');

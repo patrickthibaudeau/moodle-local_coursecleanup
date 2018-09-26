@@ -76,3 +76,47 @@ function local_coursecleanup_getCategories($categoryid = 0) {
 
     return $options;
 }
+
+function local_coursecleanup_get_roles() {
+    global $DB;
+
+    $roles = $DB->get_records('role', []);
+
+    return $roles;
+}
+
+function local_coursecleanup_resetRole($categoryId, $session, $fromRole, $toRole) {
+    global $CFG, $DB;
+    require_once($CFG->dirroot . '/user/lib.php');
+    //Get category path
+    $categorySql = 'SELECT * from {course_categories} WHERE path LIKE "%/' . $categoryId . '%"';
+    $categories = $DB->get_records_sql($categorySql);
+
+    raise_memory_limit(MEMORY_UNLIMITED);
+
+    foreach ($categories as $currentCategory) {
+        $sql = 'SELECT * FROM {course} WHERE category=' . $currentCategory->id . ' AND idnumber LIKE "%\_' . $session . '\_%"';
+        $courses = $DB->get_records_sql($sql);
+
+        if (count($courses) == 0) {
+            echo 'No courses in category: ' . $currentCategory->name . '<br><br>';
+        } else {
+            foreach ($courses as $course) {
+                $context = CONTEXT_COURSE::instance($course->id);
+
+                $teachers = user_get_participants($course->id, null, null, $fromRole, null, null, null);
+                echo "<h3>$course->fullname </h3>\n";
+                foreach ($teachers as $teacher) {
+                    role_unassign($fromRole, $teacher->id, $context->id);
+                    echo 'User with ID ' . $teacher->id . ' was unassigned from role with ID ' . $fromRole . '<br>' . "\n";
+                    if (role_assign($toRole, $teacher->id, $context->id)) {
+                        echo 'User with ID ' . $teacher->id . ' was assigned to role with ID ' . $toRole . '<br><br>' . "\n\n";
+                    }
+                    ob_flush();
+                    flush();
+                }
+            }
+        }
+    }
+    raise_memory_limit(MEMORY_STANDARD);
+}
